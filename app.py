@@ -17,7 +17,7 @@ def main():
             return jsonify({"response": "Mensagem não fornecida"}), 400
 
         # Realiza chamada para obter resposta do modelo de IA
-        client = Groq(api_key=config("API_KEY"))
+        client = Groq(api_key=config("LLM_API"))
         completion = client.chat.completions.create(
             model="meta-llama/llama-4-scout-17b-16e-instruct",
             messages=[

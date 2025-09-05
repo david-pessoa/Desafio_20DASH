@@ -1,5 +1,4 @@
 import pytest
-from unittest.mock import patch
 from app import app
 
 # Cria um client de teste do Flask
