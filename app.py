@@ -53,7 +53,7 @@ def main():
             response = requests.get(URL)
 
             if response.status_code == 400:
-                return jsonify({'response': f'Desculpe, não foi possível encontrar informações sobre o tempo em {CIDADE}'})
+                return jsonify({'response': f'Desculpe, não foi possível encontrar informações sobre o tempo em {CIDADE}'}), 400
 
             dados = response.json()
             previsao = dados['forecast']['forecastday'][1] #Previsão do tempo para amanhã
