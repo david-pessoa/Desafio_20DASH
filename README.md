@@ -4,12 +4,12 @@ Para executar a API, é preciso ter Python 3.12 (ou mais recente) e instalar as 
 
 - flask
 - groq
-- decouple
+- python-decouple
 - requests
 - pytest (para execução de testes unitários)
 
 ### Instale elas com o comando abaixo
-`pip install flask groq decouple requests`
+`pip install flask groq python-decouple requests`
 
 ### Crie um arquivo .env para salvar suas chaves de API
 Crie um arquivo .env no diretório raíz desse projeto e salve suas chaves da API do modelo meta-llama/llama-4-scout-17b-16e-instruct e da WeatherAPI como representado abaixo:
@@ -96,4 +96,11 @@ Resposta:
 Caso ocorra um erro interno, a API responde com código de erro 500 com a mensagem sobre o respectivo erro.
 
 ## Testes Unitários
-Comentar sobre os testes unitários realizados e o comando para executá-los
+No arquivo test_app.py, encontram-se os testes unitários para a API descritos a seguir:
+- `test_any_message()`: Testa o caso em é enviada uma mensagem qualquer do usuário;
+- `test_weather_message()`: Testa o caso em que é enviada uma mensagem do usuário solicitando informações sobre o tempo em determinada região existente;
+- `test_weather_non_existent_place()`: Testa o caso em que é enviada uma mensagem do usuário solicitando informações sobre o tempo em determinada região que não existe;
+- `test_empty_json()`: Testa o caso em que é enviado um JSON vazio (ou seja, inválido).
+
+### Executando os testes
+Para executar os testes unitários basta digitar o comando `pytest`, ou `pytest -v` para informações mais detalhadas dos testes
