@@ -77,6 +77,22 @@ Resposta:
 400 BAD REQUEST {"response":"Mensagem não fornecida"}
 ```
 
+### Conteúdo da mensagem inválido 
+A API retorna "Mensagem inválida" se o conteúdo da mensagem do usuário não estiver no formato de string.  
+Exemplo:
+```bash
+POST
+curl http://127.0.0.1:8000 -s \
+	-H "Content-Type: application/json" \
+	-d '{
+	"message": 1234
+	}'
+```
+Resposta:
+```bash
+400 BAD REQUEST {"response": "Mensagem inválida"}
+```
+
 ### Requisição para obter informações sobre o tempo de local inexistente
 A API retorna "Desculpe, não foi possível encontrar informações sobre o tempo de Lalaland" se o usuário solicitar informações sobre o tempo de um local inexistente, como Lalaland, por exemplo.
 ```bash
@@ -93,7 +109,11 @@ Resposta:
 ```
 
 ### Erro interno
-Caso ocorra um erro interno, a API responde com código de erro 500 com a mensagem sobre o respectivo erro.
+Caso ocorra um erro interno, a API responde com código de erro 500 seguida da mensagem "Erro interno".  
+Exemplo:
+```bash
+500 INTERNAL SERVER ERROR {"response":"Erro interno"}
+```
 
 ## Testes Unitários
 No arquivo test_app.py, encontram-se os testes unitários para a API descritos a seguir:

@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify
-from groq import Groq
-from decouple import config
-import requests
+from services.llm_model import get_llm_response
+from services.weather import get_weather
 import json
 
 app = Flask(__name__)
@@ -15,43 +14,20 @@ def main():
         # Se não é possível obter a mensagem do usuário, envia resposta com erro
         if not user_message:
             return jsonify({"response": "Mensagem não fornecida"}), 400
-
-        # Realiza chamada para obter resposta do modelo de IA
-        client = Groq(api_key=config("LLM_API"))
-        completion = client.chat.completions.create(
-            model="meta-llama/llama-4-scout-17b-16e-instruct",
-            messages=[
-                {
-                "role": "system",
-                "content": '''
-                Você é um classificador de intenções.
-                OBS: Não envolva sua resposta com acento grave ou qualquer outro tipo de caractere
-                Sempre responda em JSON válido com este formato:
-                {
-                    "clima": 0 ou 1  // 1 se a pergunta for sobre clima, 0 caso contrário
-                    "cidade": "nome da cidade" // se for pergunta sobre clima coloca o nome da cidade ou lugar falado, senão vazio"
-                    "resposta": "resposta" // Reescreva neste campo a sua resposta à mensagem do usuário
-                }
-                '''
-                },
-                {
-                    "role": "user",
-                    "content": user_message
-                }
-            ]
-        )
         
-        # Coloca resposta da IA num dicionário
-        AI_response = completion.choices[0].message.content.replace("`", '')
+        # Se a mensagem do usuário não for uma string, envia resposta com erro
+        if not isinstance(user_message, str):
+            return jsonify({"response": "Mensagem inválida"}), 400
+        
+        # Obtém resposta da IA e coloca num dicionário
+        AI_response = get_llm_response(user_message)
         AI_dict = json.loads(AI_response)
 
         # Se o usuário perguntar sobre o clima, faz requisição para API da WeatherAPI
         if AI_dict["clima"]:
-            DIAS = 2
             CIDADE = AI_dict["cidade"]
-            URL = f'http://api.weatherapi.com/v1/forecast.json?key={config('WEATHER_API')}&q={CIDADE}&days={DIAS}&aqi=no&alerts=no&lang=pt'
-            response = requests.get(URL)
-
+            response = get_weather(CIDADE)
+            
             if response.status_code == 400:
                 return jsonify({'response': f'Desculpe, não foi possível encontrar informações sobre o tempo em {CIDADE}'}), 400
 
@@ -68,7 +44,7 @@ def main():
         
         # Se acontece algum erro no processo, envia mensagem do erro
     except Exception as e:
-        return jsonify({"response": str(e)}), 500
+        return jsonify({"response": "Erro interno"}), 500
 
 if __name__ == "__main__":
     app.run(debug=True, port=8000)
