@@ -9,7 +9,7 @@ Para executar a API, é preciso ter Python 3.12 (ou mais recente) e instalar as 
 - pytest (para execução de testes unitários)
 
 ### Instale elas com o comando abaixo
-`pip install flask groq python-decouple requests`
+`pip install flask groq python-decouple requests pytest`
 
 ### Crie um arquivo .env para salvar suas chaves de API
 Crie um arquivo .env no diretório raíz desse projeto e salve suas chaves da API do modelo meta-llama/llama-4-scout-17b-16e-instruct e da WeatherAPI como representado abaixo:
