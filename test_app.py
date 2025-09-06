@@ -69,10 +69,16 @@ def test_weather_non_existent_place(mock_llm, mock_weather, client):
     data = response.get_json()
     assert data["response"] == 'Desculpe, não foi possível encontrar informações sobre o tempo em Lalaland'
 
-
 # Envia JSON vazio
 def test_empty_json(client):
     response = client.post("/", json={})
     assert response.status_code == 400
     data = response.get_json()
     assert data["response"] == "Mensagem não fornecida"
+
+# Envia um número inteiro ao invés de string
+def test_non_string(client):
+    response = client.post("/", json={"message": 1234})
+    assert response.status_code == 400
+    data = response.get_json()
+    assert data["response"] == "Mensagem inválida"

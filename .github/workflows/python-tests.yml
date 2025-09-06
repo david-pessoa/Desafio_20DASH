@@ -25,7 +25,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install flask groq python-decouple requests
+          pip install flask groq python-decouple requests werkzeug
           pip install pytest
 
       # Roda os testes

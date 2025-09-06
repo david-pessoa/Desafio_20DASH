@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from services.llm_model import get_llm_response
 from services.weather import get_weather
+from werkzeug.exceptions import BadRequest
 import json
 
 app = Flask(__name__)
@@ -8,8 +9,13 @@ app = Flask(__name__)
 @app.route("/", methods=["POST"])
 def main():
     try:
+        try: # Verifica se o JSON enviado é válido
+            data = request.get_json(force=True)
+        except BadRequest:
+            return jsonify({"response": "Mensagem inválida"}), 400
+
         # Pega a mensagem do usuário do corpo da requisição
-        user_message = request.get_json().get("message")
+        user_message = data.get("message") if data else None
 
         # Se não é possível obter a mensagem do usuário, envia resposta com erro
         if not user_message:
