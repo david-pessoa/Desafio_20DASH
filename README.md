@@ -121,7 +121,8 @@ No arquivo test_app.py, encontram-se os testes unitários para a API descritos a
 - `test_any_message()`: Testa o caso em é enviada uma mensagem qualquer do usuário;
 - `test_weather_message()`: Testa o caso em que é enviada uma mensagem do usuário solicitando informações sobre o tempo em determinada região existente;
 - `test_weather_non_existent_place()`: Testa o caso em que é enviada uma mensagem do usuário solicitando informações sobre o tempo em determinada região que não existe;
-- `test_empty_json()`: Testa o caso em que é enviado um JSON vazio (ou seja, inválido).
+- `test_empty_json()`: Testa o caso em que é enviado um JSON vazio (ou seja, sem mensagem).
+- `test_non_string()`: Testa o caso em que é enviando um JSON com conteúdo que não é uma string (ou seja, inválido)
 
 ### Executando os testes
 Para executar os testes unitários basta digitar o comando `pytest`, ou `pytest -v` para informações mais detalhadas dos testes
