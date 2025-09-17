@@ -20,8 +20,10 @@ WEATHER_API='chave de API da WeatherAPI'
 ```
 
 ## Executando a API
-Para executar a API, basta digitar o comando abaixo. A API será excutada de forma local, ouvindo na porta 8000
-`python3 app.py`
+Para executar a API, basta digitar o comando abaixo. A API será excutada de forma local, ouvindo na porta 8000.
+```
+python3 app.py
+```
 
 Sendo assim, a rota para acessá-la é:
 `http://127.0.0.1:8000` ou `http://localhost:8000`
